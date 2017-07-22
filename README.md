@@ -8,7 +8,7 @@ Python 3 with the `reportlab` module.
 
 ## Usage
 
-```bash
+```
 Usage: jira2pdf.py [options] -o output.pdf
 
 Generate a PDF of JIRA issues for an Agile board
