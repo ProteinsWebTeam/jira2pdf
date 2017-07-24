@@ -94,9 +94,9 @@ The following properties can be defined in the config JSON file.
 
 ### Components
 
-The first ten components are assigned a different colour (following components are assigned a default colour), thus cards are coloured based on their component's colour.
+The first ten components are assigned a different colour (following components are assigned a default colour), thus cards are coloured with respect to the issue's component.
 
-However, it is possible to assign the same colour to multiple components.
+It is possible to assign the same colour to multiple components by using the `components` property in the config JSON file.
 
 | Name              | Description  |
 | ----------------- | ------------ |
