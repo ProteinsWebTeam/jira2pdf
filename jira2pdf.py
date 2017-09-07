@@ -446,7 +446,7 @@ def main():
 
         if not passwd:
             print('Using a password on the command line interface can be insecure.')
-            passwd = _input('Password (): ', hide=True)
+            passwd = _input('Password: ', hide=True)
 
         if not project:
             project = _input('Project (e.g. IBU): ')
