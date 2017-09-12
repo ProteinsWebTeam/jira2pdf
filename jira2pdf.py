@@ -103,7 +103,10 @@ class JIRAClient:
             elif e.code == 404:
                 sys.stderr.write('JIRA server not found at: {}\n'.format(self.server))
             else:
-                sys.stderr.write('Unknown error\n')
+                sys.stderr.write('Unknown HTTP error\n')
+            return False
+        except error.URLError as e:
+            sys.stderr.write('URL error (might be a connection timed out)\n')
             return False
         else:
             return True
@@ -174,7 +177,7 @@ class JIRAClient:
 
 
 def gen_pdf(issues, output, components=list()):
-    components = {c['name']: c.get('color') for c in components}
+    components = {c['name']: dict(color=c.get('color'), exclude=c.get('exclude', False)) for c in components}
 
     regular = os.path.join(os.path.dirname(__file__), 'inc', 'OpenSans-Regular.ttf')
     bold = os.path.join(os.path.dirname(__file__), 'inc', 'OpenSans-Bold.ttf')
@@ -185,9 +188,8 @@ def gen_pdf(issues, output, components=list()):
     palette = {}
     i = 0
     for c in sorted(all_components):
-        color = components.get(c)
         if c in components:
-            palette[c] = color
+            palette[c] = components[c]['color']
         else:
             try:
                 color = COLORS[i]
@@ -238,6 +240,9 @@ def gen_pdf(issues, output, components=list()):
         except IndexError:
             color = DEFAULT_COLOR
         else:
+            if c in components and components[c]['exclude']:
+                continue
+
             color = palette[c]
 
         canvas.setStrokeColor(color)
@@ -444,8 +449,9 @@ def main():
         if not user:
             user = _input('user: ')
 
-        if not passwd:
+        if passwd:
             print('Using a password on the command line interface can be insecure.')
+        else:
             passwd = _input('Password: ', hide=True)
 
         if not project:

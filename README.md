@@ -65,7 +65,7 @@ The following properties can be defined in the config JSON file.
   "user": "mblum",
   "password": "",
   "project": "IBU",
-  "fixVersion": "Sprint 91",
+  "fixVersion": "Sprint 93",
   "priorityField": "customfield_10131",
   "components": [
     {
@@ -84,9 +84,15 @@ The following properties can be defined in the config JSON file.
       "color": "#e74c3c"
     },
     {
+      "name": "Pfam",
+      "pattern": "Pfam.*",
+      "color": "#074987"
+    },
+    {
       "name": "EMG",
       "pattern": "EMG.*",
-      "color": "#2ecc71"
+      "color": "#2ecc71",
+      "exclude": true
     }
   ]
 }
@@ -100,6 +106,7 @@ It is possible to assign the same colour to multiple components by using the `co
 
 | Name              | Description  |
 | ----------------- | ------------ |
-| `name`          | Meta-component name (e.g. "Web dev") |
-| `pattern`       | Regular expression to capture components (e.g. "Web.*") |
-| `color`         | Colour in the hexadecimal format (e.g. #008080) |
+| `name`            | Meta-component name (e.g. "Web dev") |
+| `pattern`         | Regular expression to capture components (e.g. "Web.*") |
+| `color`           | Colour in the hexadecimal format (e.g. #008080) |
+| `exclude`         | Skip this component's issues |
