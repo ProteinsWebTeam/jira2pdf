@@ -6,6 +6,14 @@ JIRA2PDF generates a PDF file of JIRA user stories for your agile wallboard.
 
 Python 3 with the `reportlab` module.
 
+## Installation
+
+Installing via virtualenv
+```
+virtualenv --python=python3 venv
+./venv/bin/pip install reportlab
+```
+
 ## Usage
 
 ```
@@ -24,7 +32,7 @@ optional arguments:
   -u USER, --user USER              user
   -p PASSWD, --passwd PASSWD        password
   --project PROJECT                 JIRA project
-  --version VERSION                 Project's version (e.g. Sprint 91)
+  --sprint SPRINT ID                ID of the field sprint.
 ```
 
 The arguments required to use the JIRA API can be defined in the config JSON file (`-c, --config`) instead of being passed on the command line. If they are neither defined in the config JSON file nor on the command line, a prompt is displayed when running the script. As it is insecure to store and use passwords in plain text, it is recommended to leave the script displays at least the password prompt (your password will not be displayed).
@@ -35,7 +43,7 @@ There are two ways to retrieve user stories to be printed.
 
 #### JIRA Cloud REST API
 
-You can download stories for a given project and fix version from the JIRA Cloud REST API by providing your JIRA credentials, and the server URI.
+You can download stories for a given project and   sprint ID from the JIRA Cloud REST API by providing your JIRA credentials, and the server URI.
 
 #### XML
 
@@ -53,7 +61,7 @@ The following properties can be defined in the config JSON file.
 | `user`          | Username |
 | `password`      | Password *(storing passwords in plain text is insecure)* |
 | `project`       | Project key (first part of the project's issue keys) |
-| `fixVersion`    | Fix version of the issues |
+| `sprint`    | Sprint of the issues |
 | `priorityField` | Custom field used to assign a priority code to an issue | 
 | `components`    | List of user-defined components. See [Components](#components) | 
 
@@ -65,7 +73,7 @@ The following properties can be defined in the config JSON file.
   "user": "mblum",
   "password": "",
   "project": "IBU",
-  "fixVersion": "Sprint 93",
+  "sprint": 853,
   "priorityField": "customfield_10131",
   "components": [
     {

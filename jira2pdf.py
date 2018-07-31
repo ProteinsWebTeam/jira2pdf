@@ -111,11 +111,11 @@ class JIRAClient:
         else:
             return True
 
-    def get(self, project, version, priority_field=None, custom_components=list()):
+    def get(self, project, sprint, priority_field=None, custom_components=list()):
         issues = []
 
         data = parse.urlencode({
-            'jql': 'project="{}" AND fixVersion="{}"'.format(project, version),
+            'jql': 'project="{}" AND sprint={}'.format(project, sprint),
             'startAt': 0,
             'maxResults': 1000
         })
@@ -399,7 +399,8 @@ def main():
     parser.add_argument('-u', '--user', help='user')
     parser.add_argument('-p', '--passwd', help='password')
     parser.add_argument('--project', help='JIRA project')
-    parser.add_argument('--version', help="Project's version (e.g. Sprint 91)", nargs='+')
+    parser.add_argument('--sprint', help="Project's sprint ID (e.g. 854)", nargs='+')
+    parser.add_argument('--version', help="Project's version (e.g. Sprint 91)")
     parser.add_argument('-o', '--output', help='output file', required=True)
 
     args = parser.parse_args()
@@ -408,7 +409,7 @@ def main():
     user = None
     passwd = None
     project = None
-    version = None
+    sprint = None
     priority_field = None
     custom_components = []
 
@@ -418,7 +419,7 @@ def main():
         user = config.get('user')
         passwd = config.get('password')
         project = config.get('project')
-        version = config.get('fixVersion')
+        sprint = config.get('sprint')
         priority_field = config.get('priorityField')
 
         # Groups are sorted by pattern length (descending order)
@@ -436,9 +437,9 @@ def main():
     if args.project:
         project = args.project
 
-    if args.version:
+    if args.sprint:
         # handles version with or without double quotes
-        version = ' '.join(args.version).strip('"')
+        sprint = ' '.join(args.sprint).strip('"')
 
     if args.xml:
         issues = parse_xml(args.xml, priority_field=priority_field, custom_components=custom_components)
@@ -457,11 +458,11 @@ def main():
         if not project:
             project = _input('Project (e.g. IBU): ')
 
-        if not version:
-            version = _input('Version (e.g. Sprint 91): ').strip('"')  # trim double quotes if user types them
+        if not sprint:
+            sprint = _input('Sprint ID (e.g. 853): ').strip('"')  # trim double quotes if user types them
 
         con = JIRAClient(server, user, passwd)
-        issues = con.get(project, version,
+        issues = con.get(project, sprint,
                          priority_field=priority_field, custom_components=custom_components)
 
     # sort by component (asc) and priority (desc)
