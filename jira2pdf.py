@@ -147,11 +147,11 @@ class JIRAClient:
 
                     if priority_field:
                         try:
-                            priority = int(float(obj['fields'][priority_field]))
-                        except (KeyError, TypeError, ValueError):
-                            priority = None
+                            priority = obj['fields'][priority_field]
+                        except KeyError:
+                            priority = ''
                     else:
-                        priority = None
+                        priority = ''
 
                     # Rename components
                     if custom_components:
@@ -295,8 +295,8 @@ def gen_pdf(issues, output, components=list()):
         p.drawOn(canvas, x_pos + 15, y_ori - tile_height + 10)
 
         text = []
-        if issue.priority:
-            text.append('Priority: {}'.format(issue.priority))
+        # if issue.priority:
+        #     text.append('Priority: {}'.format(issue.priority))
 
         try:
             estimate = int(issue.estimate)
@@ -358,15 +358,15 @@ def parse_xml(filename, priority_field=None, custom_components=list()):
             for e in item.find('customfields'):
                 if e.attrib.get('id') == priority_field:
                     try:
-                        priority = int(float(e.find('customfieldvalues').find('customfieldvalue').text))
-                    except (AttributeError, ValueError):
-                        priority = None
+                        priority = e.find('customfieldvalues').find('customfieldvalue').text
+                    except AttributeError:
+                        priority = ''
                     finally:
                         break
             else:
-                priority = None
+                priority = ''
         else:
-            priority = None
+            priority = ''
 
         # Rename components
         if custom_components:
@@ -465,8 +465,8 @@ def main():
         issues = con.get(project, sprint,
                          priority_field=priority_field, custom_components=custom_components)
 
-    # sort by component (asc) and priority (desc)
-    issues.sort(key= lambda x: (x.components, -x.priority if x.priority is not None else 1000))
+    # sort by priority and fallback to components
+    issues.sort(key= lambda x: (x.priority, x.components))
     gen_pdf(issues, args.output, components=custom_components)
 
 
