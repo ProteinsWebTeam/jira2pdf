@@ -35,7 +35,7 @@ optional arguments:
   --sprint SPRINT ID                ID of the field sprint.
 ```
 
-The arguments required to use the JIRA API can be defined in the config JSON file (`-c, --config`) instead of being passed on the command line. If they are neither defined in the config JSON file nor on the command line, a prompt is displayed when running the script. As it is insecure to store and use passwords in plain text, it is recommended to leave the script displays at least the password prompt (your password will not be displayed).
+The arguments required to use the JIRA API can be defined in the config JSON file (`-c, --config`) instead of being passed on the command line. If they are neither defined in the config JSON file nor on the command line, a prompt is displayed when running the script. As it is insecure to store and use passwords in plain text, it is recommended to leave the script display at least the password prompt (your password will not be displayed).
 
 ### Getting user stories
 
