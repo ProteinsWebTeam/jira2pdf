@@ -43,7 +43,7 @@ There are two ways to retrieve user stories to be printed.
 
 #### JIRA Cloud REST API
 
-You can download stories for a given project and   sprint ID from the JIRA Cloud REST API by providing your JIRA credentials, and the server URI.
+You can download stories for a given project and sprint ID from the JIRA Cloud REST API by providing your JIRA credentials, and the server URI.
 
 #### XML
 
